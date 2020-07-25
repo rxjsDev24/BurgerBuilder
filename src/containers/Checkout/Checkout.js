@@ -1,35 +1,12 @@
 import React, { Component } from 'react';
 import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSummary';
-import { Route } from 'react-router-dom'
+import { Route, Redirect } from 'react-router-dom'
 import Contact from './Contact/Contact'
 import { connect } from 'react-redux'
 
-class Checkout extends Component {
-    state = {
-        ingredients: {
-        },
-        price: null
-    }
-    componentDidMount() {
-        const query = new URLSearchParams(this.props.location.search);
-        const ingredients = {};
-        let price = null;
-        // for (let param of query.entries()) {
-        //     // ['salad', '1']
-        //     ingredients[param[0]] = +param[1];
-        // }
-        for (let [key, value] of query.entries()) {
-            // ['salad', '1']
-            if (key === 'price') {
-                price = +value;
-            }
-            else {
-                ingredients[key] = +value;      //this plus is to change the string into integer
-            }
 
-        }
-        this.setState({ ingredients: ingredients, price: price });
-    }
+class Checkout extends Component {
+
     checkoutCancelledHandler = () => {
         this.props.history.goBack();
     }
@@ -39,22 +16,29 @@ class Checkout extends Component {
     }
 
     render() {
-        return (
-            <div>
-                <CheckoutSummary
-                    ingredients={this.props.ingrs}
-                    checkoutCancelled={this.checkoutCancelledHandler}
-                    checkoutContinued={this.checkoutContinuedHandler} />
-                <Route path={this.props.match.url + '/contact-data'}
-                    component={Contact} />
-            </div>
-        );
+        let summary = <Redirect to='/' />
+        if (this.props.ingrs) {
+            const purchasedRedirect = this.props.purchased ? <Redirect to='/' /> : null;
+            summary = (
+                <div>
+                    {purchasedRedirect}
+                    <CheckoutSummary
+                        ingredients={this.props.ingrs}
+                        checkoutCancelled={this.checkoutCancelledHandler}
+                        checkoutContinued={this.checkoutContinuedHandler} />
+                    <Route path={this.props.match.url + '/contact-data'}
+                        component={Contact} />
+                </div >
+            )
+        }
+        return summary;
     }
 }
 
 const mapStateToProps = state => {
     return {
-        ingrs: state.ingredients
+        ingrs: state.burgerBuilder.ingredients,
+        purchased: state.order.purchased
     }
 }
 
