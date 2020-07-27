@@ -5,6 +5,7 @@
 
 # scripts
 /scripts
+config.js
 
 # testing
 /coverage
