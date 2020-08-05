@@ -1,7 +1,7 @@
 # Burger_Builder App
+A Burger_Builder(Kind of Subway) App based purely on React, Redux.
 
 ### Getting Started
-A Burger_Builder(Kind of Subway) App based purely on React, Redux.
 There are two methods for getting started with this repo.
 
 #### Familiar with Git?
@@ -9,7 +9,7 @@ Checkout this repo, install dependencies, then start the gulp process with the f
 
 ```
 > git clone https://github.com/AIEnthusias-t/BurgerBuilder.git
-> cd ReduxSimpleStarter
+> cd BurgerBuilder
 > npm install
 > npm start
 ```
